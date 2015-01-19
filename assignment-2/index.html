@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Choose Your Own Adventure</title>
+    <meta charset="utf8">
+    <style type="text/css">
+      body {
+      font-family: Arial, Verdana, sans-serif;
+      }
+      h1 {
+      color: #ee3e80;
+      text-align: center;
+      }
+    </style>
+    </head>
+
+    <body>
+      <h1>It's pay day, dolls! Time to go shopping...</h1>
+
+      <script>
+    var Seattle = confirm("I\'m thinking we should stay in Seattle. Yeah?");
+    console.log(Seattle);
+    if (!Seattle) {
+      console.log("Well, I guess we can go to Bellsquare. Just be prepared to deal with some major tools.");
+    } else {
+
+    var price = prompt("How much cheddar are you gonna\' drop?");
+    price = Number(price);
+    if (price <= 50) {
+      console.log("That\'s not much but whatev\'. Let\'s go to Forever 21. We should totally snag some new jeggings.");
+    } else if (price <100) {
+      console.log("Ok, cool. Let\s do Urban Outfitters. Maybe there\'ll be some hotties we can flirt with.");
+    } else {
+
+      var department = prompt("OMG! I was totally going to say the same thing. You know we have to hit up Nordstrom. What do you want to shop for?");
+      department = department.toLowerCase();
+      switch(department) {
+        case "shoes":
+          console.log("Perfect. I desperately need new boots. Let\'s head to the first floor.");
+          break;
+        case "clothes":
+          console.log("Duh! Lets start with Savvy on the second floor.");
+          break;
+        default:
+          console.log("Oh, that\'s not quite what I was thinking of but hey, as long as we\'re shopping, I'm up for whatever!");
+      }
+
+    }
+
+  }
+
+    </script>
+  </body>
+</html>
