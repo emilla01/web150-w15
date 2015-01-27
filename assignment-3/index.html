@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Assignment 3</title>
+    <meta charset="utf8">
+  </head>
+  <body>
+    This space intentionally left blank.
+
+    <script src="http://thomaswilburn.net/scc/data/quakes.js"></script>
+
+    <script>
+    //what was the size of the biggest earthquake this week?
+    var largestquake = 0;
+    var index = 0;
+
+    for (var i = 0; i < magnitude.length; i++) {
+      var s = magnitude[i];
+      if (s > largestquake) {
+        largestquake = s;
+        index = i;
+      }
+    }
+    console.log("The size of the biggest earthquake was: ", largestquake);
+    console.log("The depth of this earthquake was: ", depth[index]);
+
+
+    //what is the average depth where a quake takes place?
+    var totalDepth = 0;
+    for (var i = 0; i < depth.length; i ++) {
+      totalDepth = totalDepth + depth[i];
+    }
+    console.log("The average depth where an earthquake takes place is: ", totalDepth / depth.length);
+
+
+    //how many quakes have a type other than "earthquake" (e.g., "quarry blast" and "explosion")
+
+    var typeOther = [ ];
+    for (var i = 0; i < type.length; i++) {
+      var item = type[i];
+      if (item != "earthquake") {
+        typeOther.push(item);
+      }
+    }
+    console.log("The number of quakes that have a type other than earthquake is: ", typeOther.length);
+
+    </script>
+  </body>
+</html>
