@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset=utf8>
+
+  <style>
+  h1 {
+    color: navy;
+    text-align: center;
+  }
+
+  button {
+    margin: 10px;
+    background-color: rosybrown;
+    color: antiquewhite;
+    font-size: 16px;
+  }
+
+  table {
+    width: 600px;
+    margin: 20px auto;
+    border: 6px solid navy;
+    background-color: antiquewhite;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 10px;
+    text-align: left;
+    color: navy;
+  }
+
+  td {
+    border-top: 2px solid rosybrown;
+  }
+
+  </style>
+
+  <title>Dogs</title>
+</head>
+
+<body>
+  <h1>Dogs</h1>
+  <nav>
+    <button class="reset">All</button><br>
+    <button class="filter" data-filter="small">Small</button>
+    <button class="filter" data-filter="medium">Medium</button>
+    <button class="filter" data-filter="large">Large</button><br>
+    <button class="filter" data-filter="male">Male</button>
+    <button class="filter" data-filter="female">Female</button>
+  </nav>
+
+  <table>
+    <tr class="header">
+      <th>Name</th>
+      <th>Breed</th>
+      <th>Sex</th>
+      <th>Size</th>
+      <th>Color</th>
+    </tr>
+    <tr class="tr medium male">
+      <td>Roger Moore</td>
+      <td>Airedale Terrier</td>
+      <td>Male</td>
+      <td>Medium</td>
+      <td>Brown</td>
+    </tr>
+    <tr class="tr medium female">
+      <td>Yolanda</td>
+      <td>Basset Hound</td>
+      <td>Female</td>
+      <td>Medium</td>
+      <td>Brown</td>
+    </tr>
+    <tr class="tr small male">
+      <td>Sir Teddy</td>
+      <td>Chow Chow</td>
+      <td>Male</td>
+      <td>Small</td>
+      <td>Blonde</td>
+    </tr>
+    <tr class="tr small male">
+      <td>M. Bonaparte</td>
+      <td>French Bulldog</td>
+      <td>Male</td>
+      <td>Small</td>
+      <td>White</td>
+    </tr>
+    <tr class="tr large female">
+      <td>Nanna</td>
+      <td>Bernese Mtn Dog</td>
+      <td>Female</td>
+      <td>Large</td>
+      <td>Black</td>
+    </tr>
+
+  </table>
+
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+  <script>
+var tableRow = $(".tr");
+
+  var filterRows = $(".filter");
+  filterRows.on("click", function(){
+    var $this = $(this);
+    var filter = $this.attr("data-filter"); //get attribute of data-filter element
+    tableRow.hide();  //hide all tableRows
+    var selector = "." + filter;  //adds class to the attribute of the filter
+    tableRow.filter(selector).show();  //show tableRows matching the filter class
+  });
+
+  var allButton = $(".reset");
+  allButton.on("click", function(){
+    tableRow.show();  //shows all tableRows
+  });
+
+  </script>
+</body>
+
+</html>
