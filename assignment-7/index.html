@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Uptown Funcitons</title>
+    <meta charset=utf8>
+  </head>
+
+  <body>
+    <button class="movement">Change Movement</button><br>
+    <canvas width=640 height=480></canvas>
+  </body>
+
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+  <script>
+  ////// THESE LINES ALWAYS PRESENT FOR A CANVAS
+var $canvas = $("canvas");
+var canvas = $canvas.get(0);  //get the first item (the only canvas)
+var context = canvas.getContext("2d");
+  //////
+
+
+//CREATE SQUARE
+var drawNeko = function(x, y) {
+  context.fillStyle = "lightslategrey";
+  context.fillRect(x-5, y-5, 10, 10); // x, y coordinates, width, height
+};
+
+//OBJECTS
+var cat = {
+  x: 100,
+  y: 100,
+  dx: 2,  //which way is it going? delta(change) in x and y
+  dy: 2
+};
+
+var pointer = {
+  x: 0,
+  y: 0    //tracks where pointer is
+};
+
+//BEHAVIORS
+var update = function(animal) {
+  animal.x = animal.x + animal.dx;
+  animal.y = animal.y + animal.dy;
+};
+
+var wander = function(animal) {
+  animal.x = animal.x + animal.dx; //move animal on x-axis
+  if (animal.x > canvas.width || animal.x < 0) {
+    animal.dx = animal.dx * -1; //switch directions when reaches end of canvas
+  }
+  animal.y = animal.y + animal.dy; //move animal on y-axis
+  if (animal.y > canvas.height || animal.y < 0) {
+    animal.dy = animal.dy * -1;
+  }
+};
+
+var counter = 0;
+var chaseTail = function(animal) {
+  counter = counter + .1;
+  animal.dx = Math.sin(counter); //makes cat go in circle
+  animal.dy = Math.cos(counter);
+};
+
+var chasePointer = function(animal) {
+  if (pointer.x < animal.x) {
+    animal.dx = -1;
+  } else {
+    animal.dx = 1;
+  }
+  if (pointer.y < animal.y) {
+    animal.dy = -1;
+  } else {
+    animal.dy = 1;
+  }
+  if (Math.abs(animal.x - pointer.x) < 2) {
+    if(Math.abs(animal.y - pointer.y) < 2) {
+      behavior = sleep; //stops when it reaches the pointer
+    }
+  }
+};
+
+var dropSlide = function(animal) {
+  animal.dy = 1; //move animal to bottom of canvas
+  if (animal.y > (canvas.height - 10) || animal.y < 10) { //used 10 so animal, size 10 stays fully on canvas
+    animal.dy = 0; //animal stops moving down when it hits edge of canvas
+    animal.dx = 1; //animal starts moving on x axis when it hits bottom
+    if (animal.x > (canvas.width -10) || animal.x < 10) {
+        animal.dx = 0; //stop when it reaches edge of canvas
+      }
+  } else {
+    animal.dx = 0; //do not move animal on x-axis while moving on y axis
+  }
+};
+
+
+var sleep = function(animal) { //stop moving
+  animal.dx = 0;
+  animal.dy = 0;
+};
+
+var behavior = chaseTail; //sets initial behavior
+
+//ANIMATION
+var animate = function() {
+  context.clearRect(0, 0, canvas.width, canvas.height); //erase everything before next animation
+  update(cat);
+  behavior(cat);
+  drawNeko(cat.x, cat.y); //places cat on screen
+  setTimeout(animate, 16); //schedule next frame of animation
+};
+
+//ALL THE STUFF THAT RUNS ON PAGE LOAD OR EVENTS
+setTimeout(animate, 16);  //animate in per 16 miliseconds
+//setTimeout runs once, setInterval runs many times-> instead include setTimeout in animate
+
+$canvas.on("click", function() {  //changes behavior on click
+  behavior = wander;
+});
+
+$(".movement").on("click", function() {
+ behavior = dropSlide;
+});
+
+var convertToCanvas = function(x, y) {
+  var offset = $canvas.offset();  //gets coordinates relative to the canvas
+  var newX = x - offset.left; //removes page margin from coordinates
+  var newY = y - offset.top;
+  return {  //creates object to return values
+    x: newX,
+    y: newY
+  }
+};
+
+$canvas.on("mousemove", function(e) { //use (e) so you can get the mouse coordinates
+  var converted = convertToCanvas(e.pageX, e.pageY); //mouse cat to tip of mouse cursor
+  pointer.x = converted.x;
+  pointer.y = converted.y;
+  behavior = chasePointer;
+});
+
+
+
+
+
+
+
+
+  </script>
+</html>
