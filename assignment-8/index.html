@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>
+    <style type="text/css">
+        p {
+          margin: 0.5em;
+        }
+    </style>
+
+    <title>Assignment 8</title>
+    <meta charset=utf8>
+  </head>
+  <body>
+    <p>Vowels <input type="text" class="vowels"/></p>
+    <span class="error"></span>
+    <p>-ing <input type="text" class="ing"/></p>
+    <p>Numbers <input type="text" class="numbers"/></p>
+    <p><input type="submit"></p>
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+    <script>
+var vowels = $(".vowels");
+vowels.on("change", function() {
+  var regEx = /^[aeiou]+$/i;
+  var $this = $(this);
+  var value = $this.val();
+  var valid = regEx.test(value);
+  var span = $("span.error");
+  if (valid) {
+    span.html("");
+  } else {
+    span.html("Vowels only please.");
+  }
+});
+
+var ing = $(".ing");
+ing.on("change", function() {
+  var regEx = /ing$/;
+  var $this = $(this);
+  var value = $this.val();
+  var valid = regEx.test(value);
+  if (valid) {
+    $this.css("outline", "");
+  } else {
+    $this.css("outline", "1px solid orange");
+  }
+});
+
+var numbers = $(".numbers");
+$("input[type=submit]").on('click', function(e) {
+  var regEx = /^[^a-zA-Z]+$/;
+  var value = numbers.val();
+  var valid = regEx.test(value);
+  var submit = $("input[type=submit]");
+  if (valid) {
+    submit.attr("");
+  } else {
+    submit.attr("disabled");
+  }
+});
+
+
+    </script>
+  </body>
+</html>
