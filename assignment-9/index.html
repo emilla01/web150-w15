@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>
+    <title>The Social(ism)</title>
+    <style>
+    .output {
+      border: 1px solid black;
+      height: 200px;
+      width: 300px;
+      overflow: scroll;
+    }
+    </style>
+  </head>
+
+  <body>
+    <div class="output"></div>
+    <button class="load">LOAD</button>
+
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+    <script>
+    var url = "http://thomaswilburn.net:8080/social";
+
+    var loadButton = $(".load");
+    var output = $(".output");
+
+    var lastUpdate = 1; //update most recent, no repeats
+
+    var getUpdates = function() {
+      var request = $.ajax({
+        url: url,
+        data: {
+          since: lastUpdate
+        }
+      });
+      request.done(function(data) {
+        lastUpdate = data.at;
+        for (var i = 0; i < data.updates.length; i ++) {
+          var line = data.updates[i];
+          var text = line.status;
+          "<br>";
+          output.append(text);
+        }
+      });
+    };
+
+    $(window).load(function() { //initial load
+      getUpdates();
+    });
+
+    loadButton.on("click", function() { //click button to load
+      getUpdates();
+    });
+
+    $(".output").scroll(function() { //scroll to load
+      getUpdates();
+    });
+
+
+
+
+
+    </script>
+  </body>
+</html>
